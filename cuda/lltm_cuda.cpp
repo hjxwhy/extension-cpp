@@ -2,8 +2,16 @@
 
 #include <vector>
 
-// CUDA forward declarations
+/***
+The general strategy for writing a CUDA extension is to first 
+write a C++ file which defines the functions that will be called from Python, 
+and binds those functions to Python with pybind11.
 
+The C++ functions will then do some checks and ultimately forward its calls 
+to the CUDA functions. In the CUDA files, we write our actual CUDA kernels. 
+***/
+
+// CUDA forward declarations
 std::vector<torch::Tensor> lltm_cuda_forward(
     torch::Tensor input,
     torch::Tensor weights,

@@ -115,10 +115,10 @@ std::vector<torch::Tensor> lltm_cuda_forward(
 
   const int threads = 1024;
   const dim3 blocks((state_size + threads - 1) / threads, batch_size);
-
+  const int t = 0;
   AT_DISPATCH_FLOATING_TYPES(gates.type(), "lltm_forward_cuda", ([&] {
     lltm_cuda_forward_kernel<scalar_t><<<blocks, threads>>>(
-        gates.packed_accessor<scalar_t,3,torch::RestrictPtrTraits,size_t>(),
+        gates.packed_accessor<scalar_t,3,torch::RestrictPtrTraits,size_t>(), // 这个数字表示这个数据是几维的
         old_cell.packed_accessor<scalar_t,2,torch::RestrictPtrTraits,size_t>(),
         new_h.packed_accessor<scalar_t,2,torch::RestrictPtrTraits,size_t>(),
         new_cell.packed_accessor<scalar_t,2,torch::RestrictPtrTraits,size_t>(),
